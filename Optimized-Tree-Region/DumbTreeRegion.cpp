@@ -14,29 +14,25 @@ DumbTreeRegion::~DumbTreeRegion(void)
 
 void DumbTreeRegion::insert(int32_t id, const IntRect& rect)
 {
-	if (!rect_.intersects(rect)) {
+	if (!rect_.intersects(rect))
 		return;
-	}
 
 	if (isDivided()) {
 		nw_->insert(id, rect);
 		ne_->insert(id, rect);
 		sw_->insert(id, rect);
 		se_->insert(id, rect);
+		return;
 	}
-	else {
-		elems_.emplace_back(Element({ id, rect }));
-		if (elems_.size() > Capacity) {
-			subdivide();
-		}
-	}
+	elems_.emplace_back(Element({ id, rect }));
+	if (elems_.size() > Capacity)
+		subdivide();
 }
 
 void DumbTreeRegion::remove(int32_t id, const IntRect& rect)
 {
-	if (!rect_.intersects(rect)) {
+	if (!rect_.intersects(rect))
 		return;
-	}
 
 	if (isDivided()) {
 		nw_->remove(id, rect);
@@ -44,53 +40,48 @@ void DumbTreeRegion::remove(int32_t id, const IntRect& rect)
 		sw_->remove(id, rect);
 		se_->remove(id, rect);
 		join();
+		return;
 	}
-	else {
-		elems_.erase(std::remove_if(std::begin(elems_), std::end(elems_),
-			[&](Element const& elm) -> bool {
-				return elm.id == id;
-			}), std::end(elems_));
-	}
+	elems_.erase(std::remove_if(std::begin(elems_), std::end(elems_),
+		[&](Element const& elm) -> bool {
+			return elm.id == id;
+		}), std::end(elems_));
 }
 
 void DumbTreeRegion::query(const IntRect& rect, std::vector<int32_t>& results) const
 {
-	if (!rect_.intersects(rect)) {
+	if (!rect_.intersects(rect))
 		return;
-	}
+
 	if (isDivided()) {
 		nw_->query(rect, results);
 		ne_->query(rect, results);
 		sw_->query(rect, results);
 		se_->query(rect, results);
+		return;
 	}
-	else {
-		for (auto&& it : elems_) {
-			if (it.dim.intersects(rect)) {
-				results.push_back(it.id);
-			}
-		}
-	}
+
+	for (auto&& it : elems_)
+		if (it.dim.intersects(rect))
+			results.push_back(it.id);
 }
 
 void DumbTreeRegion::query(const Point& point, std::vector<int32_t>& results) const
 {
-	if (!rect_.contains(point)) {
+	if (!rect_.contains(point))
 		return;
-	}
+
 	if (isDivided()) {
 		nw_->query(point, results);
 		ne_->query(point, results);
 		sw_->query(point, results);
 		se_->query(point, results);
+		return;
 	}
-	else {
-		for (auto&& it : elems_) {
-			if (it.dim.contains(point)) {
-				results.push_back(it.id);
-			}
-		}
-	}
+
+	for (auto&& it : elems_)
+		if (it.dim.contains(point))
+			results.push_back(it.id);
 }
 
 void DumbTreeRegion::clear(void)
@@ -128,9 +119,8 @@ void DumbTreeRegion::subdivide(void)
 
 void DumbTreeRegion::join(void)
 {
-	if (nw_->isEmpty() && ne_->isEmpty() && sw_->isEmpty() && se_->isEmpty()) {
+	if (nw_->isEmpty() && ne_->isEmpty() && sw_->isEmpty() && se_->isEmpty())
 		clear();
-	}
 }
 
 bool DumbTreeRegion::isDivided(void) const

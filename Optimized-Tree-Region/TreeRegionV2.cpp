@@ -37,12 +37,7 @@ void TreeRegionV2::_initialize_root()
 
 void TreeRegionV2::_insert(size_t index, int32_t id, const IntRect& node_rect, const IntRect& elem_rect, size_t depth)
 {
-    if (quad_nodes_[index].first_child <= 0) {
-        element_nodes_[-quad_nodes_[index].first_child].elements.push({ id, elem_rect });
-        if (depth < MaxDepth && element_nodes_[-quad_nodes_[index].first_child].elements.size() > MaxElementPerNode - 1)
-            _subdivide(index, node_rect, depth);
-    }
-    else {
+    if (quad_nodes_[index].first_child > 0) {
         const int16_t x = node_rect.x; const int16_t y = node_rect.y;
         const int16_t w = node_rect.w >> 1; const int16_t h = node_rect.h >> 1;
         if (elem_rect.intersects({ x, y, w, h }))
@@ -53,18 +48,16 @@ void TreeRegionV2::_insert(size_t index, int32_t id, const IntRect& node_rect, c
             _insert(quad_nodes_[index].first_child + 2, id, { x, y + h, w, h }, elem_rect, depth + 1); // SW 
         if (elem_rect.intersects({ x + w, y + h, w, h }))
             _insert(quad_nodes_[index].first_child + 3, id, { x + w, y + h, w, h }, elem_rect, depth + 1); // SE
+        return;
     }
+    element_nodes_[-quad_nodes_[index].first_child].elements.push({ id, elem_rect });
+    if (depth < MaxDepth && element_nodes_[-quad_nodes_[index].first_child].elements.size() > MaxElementPerNode - 1)
+        _subdivide(index, node_rect, depth);
 }
 
 void TreeRegionV2::_intersect(size_t index, const IntRect& node_rect, const IntRect& elem_rect, std::vector<int32_t>& out) const
 {
-    if (quad_nodes_[index].first_child <= 0) {
-        const AvailableArray<Element>& elements = element_nodes_[-quad_nodes_[index].first_child].elements;
-        for (size_t i = 0; i < elements.size(); ++i)
-            if (elem_rect.intersects(elements[i].dim))
-                out.push_back(elements[i].id);
-    }
-    else {
+    if (quad_nodes_[index].first_child > 0) {
         const int16_t x = node_rect.x; const int16_t y = node_rect.y;
         const int16_t w = node_rect.w >> 1; const int16_t h = node_rect.h >> 1;
         if (elem_rect.intersects({ x, y, w, h }))
@@ -75,7 +68,12 @@ void TreeRegionV2::_intersect(size_t index, const IntRect& node_rect, const IntR
             _intersect(quad_nodes_[index].first_child + 2, { x, y + h, w, h }, elem_rect, out); // SW 
         if (elem_rect.intersects({ x + w, y + h, w, h }))
             _intersect(quad_nodes_[index].first_child + 3, { x + w, y + h, w, h }, elem_rect, out); // SE
+        return;
     }
+    const AvailableArray<Element>& elements = element_nodes_[-quad_nodes_[index].first_child].elements;
+    for (size_t i = 0; i < elements.size(); ++i)
+        if (elem_rect.intersects(elements[i].dim))
+            out.push_back(elements[i].id);
 }
 
 void TreeRegionV2::_subdivide(size_t parent_index, const IntRect& node_rect, size_t depth)
