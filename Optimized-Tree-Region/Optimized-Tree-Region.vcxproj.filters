@@ -48,6 +48,9 @@
     <ClCompile Include="TreeRegionV2.cpp">
       <Filter>Fichiers sources\v2</Filter>
     </ClCompile>
+    <ClCompile Include="DumbTreeRegion.cpp">
+      <Filter>Fichiers sources\v0</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntRect.hpp">
@@ -70,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="AvailableArray.hpp">
       <Filter>Fichiers d%27en-tête\v2</Filter>
+    </ClInclude>
+    <ClInclude Include="DumbTreeRegion.hpp">
+      <Filter>Fichiers d%27en-tête\v0</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

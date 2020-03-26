@@ -5,15 +5,37 @@
 #include <random>
 #include <chrono>
 
+#include "DumbTreeRegion.hpp"
 #include "Optimized-Tree-Region.hpp"
 #include "TreeRegionV2.hpp"
 
-double timed_code(std::function<void(void)> code)
+double timed_function(std::function<void(void)> f)
 {
     auto start = std::chrono::high_resolution_clock::now();
-    code();
+    f();
     auto end = std::chrono::high_resolution_clock::now();
     return std::chrono::duration<double>(end - start).count();
+}
+
+void monitorize_v0_insertion(DumbTreeRegion& tree, std::vector<int16_t> x, std::vector<int16_t> y)
+{
+    if (x.size() != y.size())
+        return;
+
+    auto ctor_duration = timed_function([&]() {
+        for (size_t i = 0; i < x.size(); ++i)
+            tree.insert(i, { x[i], y[i], 2, 2 });
+        });
+    std::clog << "Insertion v0 of " << x.size() << " objects: total duration: " << ctor_duration << " second(s)" << std::endl;
+}
+
+void monitorize_v0_intersection(const DumbTreeRegion& tree, const IntRect& rect)
+{
+    std::vector<Element> results;
+    double intersect_duration = timed_function([&]() { tree.query(rect, results); });
+    std::clog << "Intersect v0 duration: " << intersect_duration << " second(s), "
+        << "zone: " << rect << ", "
+        << "nb of result(s):" << results.size() << std::endl;
 }
 
 void monitorize_v1_insertion(OptimizedQuadtree&tree, std::vector<int16_t> x, std::vector<int16_t> y)
@@ -21,7 +43,7 @@ void monitorize_v1_insertion(OptimizedQuadtree&tree, std::vector<int16_t> x, std
     if (x.size() != y.size())
         return;
 
-    auto ctor_duration = timed_code([&]() {
+    auto ctor_duration = timed_function([&]() {
         for (size_t i = 0; i < x.size(); ++i)
             tree.rq_insert(i, { x[i], y[i], 2, 2 });
     });
@@ -31,7 +53,7 @@ void monitorize_v1_insertion(OptimizedQuadtree&tree, std::vector<int16_t> x, std
 void monitorize_v1_intersection(const OptimizedQuadtree& tree, const IntRect& rect)
 {
     std::vector<int32_t> results;
-    double intersect_duration = timed_code([&]() { tree.rq_intersect(rect, results); });
+    double intersect_duration = timed_function([&]() { tree.rq_intersect(rect, results); });
     std::clog << "Intersect v1 duration: " << intersect_duration << " second(s), "
               << "zone: " << rect << ", "
               << "nb of result(s):" << results.size() << std::endl;
@@ -42,7 +64,7 @@ void monitorize_v2_insertion(TreeRegionV2&tree, std::vector<int16_t> x, std::vec
     if (x.size() != y.size())
         return;
 
-    auto ctor_duration = timed_code([&]() {
+    auto ctor_duration = timed_function([&]() {
         for (size_t i = 0; i < x.size(); ++i)
             tree.insert(i, { x[i], y[i], 2, 2 });
     });
@@ -52,7 +74,7 @@ void monitorize_v2_insertion(TreeRegionV2&tree, std::vector<int16_t> x, std::vec
 void monitorize_v2_intersection(const TreeRegionV2& tree, const IntRect& rect)
 {
     std::vector<int32_t> results;
-    double intersect_duration = timed_code([&]() { tree.intersect(rect, results); });
+    double intersect_duration = timed_function([&]() { tree.intersect(rect, results); });
     std::clog << "Intersect v2 duration: " << intersect_duration << " second(s), "
               << "zone: " << rect << ", "
               << "nb of result(s):" << results.size() << std::endl;
@@ -76,11 +98,16 @@ int main() {
     // generating fake coords
     // TODO: generate fake weight/height
     std::vector<int16_t> x, y;
-    for (int i = 0; i < 10000000; ++i)
+    for (int i = 0; i < 1000000; ++i)
     {
         x.push_back(static_cast<int16_t>(rd_engine() % 1919));
         y.push_back(static_cast<int16_t>(rd_engine() % 1079));
     }
+
+    DumbTreeRegion treev0({ 0,0,1920,1080 });
+    monitorize_v0_insertion(treev0, x, y);
+    monitorize_v0_intersection(treev0, { 0, 0, 1920 / 2, 1080 / 2 });
+    monitorize_v0_intersection(treev0, { 0, 0, 1920, 1080 });
 
     OptimizedQuadtree treev1;
     monitorize_v1_insertion(treev1, x, y);

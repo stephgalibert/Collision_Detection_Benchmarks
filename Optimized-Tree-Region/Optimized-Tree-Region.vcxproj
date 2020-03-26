@@ -149,12 +149,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DumbTreeRegion.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TreeRegionV2.cpp" />
     <ClCompile Include="Optimized-Tree-Region.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AvailableArray.hpp" />
+    <ClInclude Include="DumbTreeRegion.hpp" />
     <ClInclude Include="IntRect.hpp" />
     <ClInclude Include="Item.hpp" />
     <ClInclude Include="TreeRegionV2.hpp" />
