@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\v1">
+      <UniqueIdentifier>{f8db8f64-5e16-4944-87f9-c6451b2dd441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\v2">
+      <UniqueIdentifier>{2d8a21c6-4990-4438-8baa-2a9296c604c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\v1">
+      <UniqueIdentifier>{7f64770a-867e-44ec-a6a6-a237a55866a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\v2">
+      <UniqueIdentifier>{1424b749-98ca-4d28-ae90-5b244cf2d6c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\benchmark">
+      <UniqueIdentifier>{3e3acb35-10b6-4568-ad90-24811241b7ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\benchmark">
+      <UniqueIdentifier>{1f17c1f5-e2f6-4ba4-bfa1-93e733bfee0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\v0">
+      <UniqueIdentifier>{03f99541-28d1-4955-913b-522cac9d414e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\v0">
+      <UniqueIdentifier>{e0e2738f-c74d-43cc-8813-3145f738db23}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Optimized-Tree-Region.cpp">
+      <Filter>Fichiers sources\v1</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeRegionV2.cpp">
+      <Filter>Fichiers sources\v2</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IntRect.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="v2.hpp">
+      <Filter>Fichiers d%27en-tête\v2</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeRegionV2.hpp">
+      <Filter>Fichiers d%27en-tête\v2</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.hpp">
+      <Filter>Fichiers d%27en-tête\v1</Filter>
+    </ClInclude>
+    <ClInclude Include="Optimized-Tree-Region.hpp">
+      <Filter>Fichiers d%27en-tête\v1</Filter>
+    </ClInclude>
+    <ClInclude Include="Nodes.hpp">
+      <Filter>Fichiers d%27en-tête\v1</Filter>
+    </ClInclude>
+    <ClInclude Include="AvailableArray.hpp">
+      <Filter>Fichiers d%27en-tête\v2</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <Filter>Fichiers sources</Filter>
+    </None>
+  </ItemGroup>
+</Project>
