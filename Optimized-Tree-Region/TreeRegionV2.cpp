@@ -81,6 +81,7 @@ void TreeRegionV2::_intersect(size_t index, const IntRect& node_rect, const IntR
 void TreeRegionV2::_subdivide(size_t parent_index, const IntRect& node_rect, size_t depth)
 {
     // Could be more optimized by initializing element_nodes while inserting
+    // But we'll have to add if branches on intersection
     quad_nodes_[parent_index].first_child = quad_nodes_.push({ quad_nodes_[parent_index].first_child });;
     quad_nodes_.push({ -element_nodes_.push({}) });
     quad_nodes_.push({ -element_nodes_.push({}) });

@@ -13,14 +13,13 @@ private:
 	static constexpr int Capacity = 256;
 
 public:
-	// DumbTreeRegion(void);
 	DumbTreeRegion(const IntRect& rect);
 	virtual ~DumbTreeRegion(void);
 
 	void insert(int32_t id, const IntRect& rect);
 	void remove(int32_t id, const IntRect& rect);
-	void query(const IntRect& rect, std::vector<Element>& results) const;
-	void query(const Point& point, std::vector<Element>& results) const;
+	void query(const IntRect& rect, std::vector<int32_t>& results) const;
+	void query(const Point& point, std::vector<int32_t>& results) const;
 
 	void clear(void);
 	bool isEmpty(void) const;

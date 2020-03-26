@@ -48,13 +48,12 @@ void DumbTreeRegion::remove(int32_t id, const IntRect& rect)
 	else {
 		elems_.erase(std::remove_if(std::begin(elems_), std::end(elems_),
 			[&](Element const& elm) -> bool {
-				// return elm.id.id().id() == id.id().id();
 				return elm.id == id;
 			}), std::end(elems_));
 	}
 }
 
-void DumbTreeRegion::query(const IntRect& rect, std::vector<Element>& results) const
+void DumbTreeRegion::query(const IntRect& rect, std::vector<int32_t>& results) const
 {
 	if (!rect_.intersects(rect)) {
 		return;
@@ -68,13 +67,13 @@ void DumbTreeRegion::query(const IntRect& rect, std::vector<Element>& results) c
 	else {
 		for (auto&& it : elems_) {
 			if (it.dim.intersects(rect)) {
-				results.push_back(it);
+				results.push_back(it.id);
 			}
 		}
 	}
 }
 
-void DumbTreeRegion::query(const Point& point, std::vector<Element>& results) const
+void DumbTreeRegion::query(const Point& point, std::vector<int32_t>& results) const
 {
 	if (!rect_.contains(point)) {
 		return;
@@ -88,7 +87,7 @@ void DumbTreeRegion::query(const Point& point, std::vector<Element>& results) co
 	else {
 		for (auto&& it : elems_) {
 			if (it.dim.contains(point)) {
-				results.push_back(it);
+				results.push_back(it.id);
 			}
 		}
 	}
@@ -110,7 +109,6 @@ bool DumbTreeRegion::isEmpty(void) const
 
 void DumbTreeRegion::subdivide(void)
 {
-	// std::clog << "subdivide" << std::endl;
 	const int16_t x = rect_.x; const int16_t y = rect_.y;
 	const int16_t w = rect_.w >> 1; const int16_t h = rect_.h >> 1;
 
