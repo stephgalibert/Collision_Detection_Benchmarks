@@ -1,5 +1,7 @@
 ## Optimized Quad Tree Region Project
 
+Benchmarking number of collisions detection implementations, including trees and (next step) grids.
+
 
 ```
 Insertion v0 of 10000000 objects: total duration: 2.91947 second(s)
