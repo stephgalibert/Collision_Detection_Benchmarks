@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DumbTreeRegion.cpp" />
+    <ClCompile Include="GridV0.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TreeRegionV2.cpp" />
     <ClCompile Include="Optimized-Tree-Region.cpp" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="AvailableArray.hpp" />
     <ClInclude Include="DumbTreeRegion.hpp" />
+    <ClInclude Include="GridV0.hpp" />
     <ClInclude Include="IntRect.hpp" />
     <ClInclude Include="Item.hpp" />
     <ClInclude Include="TreeRegionV2.hpp" />

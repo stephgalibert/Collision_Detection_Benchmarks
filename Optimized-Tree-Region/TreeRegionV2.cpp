@@ -15,6 +15,11 @@ void TreeRegionV2::insert(int32_t id, const IntRect& rect)
     _insert(0, id, dimension_, rect, 0);
 }
 
+void TreeRegionV2::remove(int32_t id, const IntRect& rect)
+{
+    _remove(0, id, dimension_, rect);
+}
+
 void TreeRegionV2::intersect(const IntRect& elem_rect, std::vector<int32_t>& out) const
 {
     _intersect(0, dimension_, elem_rect, out);
@@ -55,6 +60,34 @@ void TreeRegionV2::_insert(size_t index, int32_t id, const IntRect& node_rect, c
         _subdivide(index, node_rect, depth);
 }
 
+void TreeRegionV2::_remove(size_t index, int32_t id, const IntRect& node_rect, const IntRect& elem_rect)
+{
+    // TODO: test only on iterator over element_nodes_
+    if (quad_nodes_[index].first_child > 0) {
+        const int16_t x = node_rect.x; const int16_t y = node_rect.y;
+        const int16_t w = node_rect.w >> 1; const int16_t h = node_rect.h >> 1;
+        if (elem_rect.intersects({ x, y, w, h }))
+            _remove(quad_nodes_[index].first_child + 0, id, { x, y, w, h }, elem_rect); // NW
+        if (elem_rect.intersects({ x + w, y, w, h }))
+            _remove(quad_nodes_[index].first_child + 1, id, { x + w, y, w, h }, elem_rect); // NE
+        if (elem_rect.intersects({ x, y + h, w, h }))
+            _remove(quad_nodes_[index].first_child + 2, id, { x, y + h, w, h }, elem_rect); // SW 
+        if (elem_rect.intersects({ x + w, y + h, w, h }))
+            _remove(quad_nodes_[index].first_child + 3, id, { x + w, y + h, w, h }, elem_rect); // SE
+        return;
+    }
+
+    const AvailableArray<Element>& elements = element_nodes_[-quad_nodes_[index].first_child].elements;
+    for (size_t i = 0; i < elements.size(); ++i)
+        if (elements[i].id == id) {
+            element_nodes_[-quad_nodes_[index].first_child].elements.erase(i);
+        }
+
+    //if (element_nodes_[-quad_nodes_[index].first_child].elements.empty()) {
+    //    // TODO: remove quad nodes from +0 to +3
+    //}
+}
+
 void TreeRegionV2::_intersect(size_t index, const IntRect& node_rect, const IntRect& elem_rect, std::vector<int32_t>& out) const
 {
     if (quad_nodes_[index].first_child > 0) {
@@ -78,8 +111,6 @@ void TreeRegionV2::_intersect(size_t index, const IntRect& node_rect, const IntR
 
 void TreeRegionV2::_subdivide(size_t parent_index, const IntRect& node_rect, size_t depth)
 {
-    // Could be more optimized by initializing element_nodes while inserting
-    // But we'll have to add if branches on intersection
     quad_nodes_[parent_index].first_child = quad_nodes_.push({ quad_nodes_[parent_index].first_child });;
     quad_nodes_.push({ -element_nodes_.push({}) });
     quad_nodes_.push({ -element_nodes_.push({}) });

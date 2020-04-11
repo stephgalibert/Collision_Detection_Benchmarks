@@ -17,7 +17,9 @@ public:
     ~TreeRegionV2() = default;
 
     void insert(int32_t id, const IntRect &rect);
+    void remove(int32_t id, const IntRect& rect);
     void intersect(const IntRect& elem_rect, std::vector<int32_t>& out) const;
+    std::vector<int32_t> intersectv2(const IntRect& elem_rect) const;
 
     void dump(void) const;
 
@@ -25,6 +27,7 @@ private:
     void _initialize_root();
 
     void _insert(size_t index, int32_t id, const IntRect& node_rect, const IntRect& elem_rect, size_t depth);
+    void _remove(size_t index, int32_t id, const IntRect& node_rect, const IntRect& elem_rect);
     void _intersect(size_t index, const IntRect& node_rect, const IntRect& elem_rect, std::vector<int32_t>& out) const;
 
     void _subdivide(size_t index, const IntRect& node_rect, size_t depth);
@@ -34,6 +37,6 @@ private:
 private:
     IntRect dimension_;
     AvailableArray<QuadNode> quad_nodes_;
-    AvailableArray<ElementNode> element_nodes_;
+    AvailableArray<Elements> element_nodes_;
 };
 

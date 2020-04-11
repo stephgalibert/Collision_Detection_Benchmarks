@@ -23,6 +23,16 @@ public:
     {
         // Warning: child must be adjacent?
         available_.push_back(index);
+        if (available_.size() == array_.size()) {
+            array_.clear();
+            available_.clear();
+        }
+        return 0;
+    }
+
+    bool empty() const
+    {
+        return array_.empty() || (array_.size() == available_.size());
     }
 
     void swap(AvailableArray<T>& other)

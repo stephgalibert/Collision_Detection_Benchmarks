@@ -51,6 +51,9 @@
     <ClCompile Include="DumbTreeRegion.cpp">
       <Filter>Fichiers sources\v0</Filter>
     </ClCompile>
+    <ClCompile Include="GridV0.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntRect.hpp">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="DumbTreeRegion.hpp">
       <Filter>Fichiers d%27en-tête\v0</Filter>
+    </ClInclude>
+    <ClInclude Include="GridV0.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

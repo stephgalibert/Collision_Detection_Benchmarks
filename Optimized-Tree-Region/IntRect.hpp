@@ -7,6 +7,11 @@ struct Point {
     int16_t y;
 };
 
+struct Vector2i {
+    int32_t x;
+    int32_t y;
+};
+
 struct IntRect {
     int16_t x, y, w, h;
     bool intersects(const IntRect& other) const

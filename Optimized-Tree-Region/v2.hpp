@@ -8,10 +8,14 @@ struct Element {
     IntRect dim;
 };
 
+struct ElementNode {
+    int32_t index;
+};
+
 struct QuadNode {
     int32_t first_child;
 };
 
-struct ElementNode {
+struct Elements {
     AvailableArray<Element> elements;
 };
