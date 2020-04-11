@@ -1,4 +1,6 @@
-## Optimized Quad Tree Region Project
+## Collision detection benchmarking Project
+
+Benchmarking several home-made collision detection implementations, including trees and (next step) grids.
 
 
 ```
