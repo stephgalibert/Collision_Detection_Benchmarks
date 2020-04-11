@@ -51,14 +51,14 @@ void monitorize_v0_insertion(DumbTreeRegion& tree, std::vector<int16_t> x, std::
         for (size_t i = 0; i < x.size(); ++i)
             tree.insert(i, { x[i], y[i], 2, 2 });
         });
-    std::clog << "Insertion v0 of " << x.size() << " objects: total duration: " << ctor_duration << " second(s)" << std::endl;
+    std::clog << "Insertion tree v0 of " << x.size() << " objects: total duration: " << ctor_duration << " second(s)" << std::endl;
 }
 
 void monitorize_v0_intersection(const DumbTreeRegion& tree, const IntRect& rect)
 {
     std::vector<int32_t> results;
     double intersect_duration = timed_function([&]() { tree.query(rect, results); });
-    std::clog << "Intersect v0 duration: " << intersect_duration << " second(s), "
+    std::clog << "Intersect tree v0 duration: " << intersect_duration << " second(s), "
         << "zone: " << rect << ", "
         << "nb of result(s):" << results.size() << std::endl;
 }
@@ -72,14 +72,14 @@ void monitorize_v1_insertion(OptimizedQuadtree&tree, std::vector<int16_t> x, std
         for (size_t i = 0; i < x.size(); ++i)
             tree.rq_insert(i, { x[i], y[i], 2, 2 });
     });
-    std::clog << "Insertion v1 of " << x.size() << " objects: total duration: " << ctor_duration << " second(s)" << std::endl;
+    std::clog << "Insertion tree v1 of " << x.size() << " objects: total duration: " << ctor_duration << " second(s)" << std::endl;
 }
 
 void monitorize_v1_intersection(const OptimizedQuadtree& tree, const IntRect& rect)
 {
     std::vector<int32_t> results;
     double intersect_duration = timed_function([&]() { tree.rq_intersect(rect, results); });
-    std::clog << "Intersect v1 duration: " << intersect_duration << " second(s), "
+    std::clog << "Intersect tree v1 duration: " << intersect_duration << " second(s), "
               << "zone: " << rect << ", "
               << "nb of result(s):" << results.size() << std::endl;
 }
@@ -93,14 +93,14 @@ void monitorize_v2_insertion(TreeRegionV2&tree, std::vector<int16_t> x, std::vec
         for (size_t i = 0; i < x.size(); ++i)
             tree.insert(i, { x[i], y[i], 2, 2 });
     });
-    std::clog << "Insertion v2 of " << x.size() << " objects: total duration: " << ctor_duration << " second(s)" << std::endl;
+    std::clog << "Insertion tree v2 of " << x.size() << " objects: total duration: " << ctor_duration << " second(s)" << std::endl;
 }
 
 void monitorize_v2_intersection(const TreeRegionV2& tree, const IntRect& rect)
 {
     std::vector<int32_t> results;
     double intersect_duration = timed_function([&]() { tree.intersect(rect, results); });
-    std::clog << "Intersect v2 duration: " << intersect_duration << " second(s), "
+    std::clog << "Intersect tree v2 duration: " << intersect_duration << " second(s), "
               << "zone: " << rect << ", "
               << "nb of result(s):" << results.size() << std::endl;
 }
@@ -122,20 +122,20 @@ int main() {
     monitorize_grid_v0_intersection(gridv0, { 0, 0, 1920 / 2, 1080 / 2 });
     monitorize_grid_v0_intersection(gridv0, { 0, 0, 1920, 1080 });
 
-    //DumbTreeRegion treev0({ 0,0,1920,1080 });
-    //monitorize_v0_insertion(treev0, x, y);
-    //monitorize_v0_intersection(treev0, { 0, 0, 1920 / 2, 1080 / 2 });
-    //monitorize_v0_intersection(treev0, { 0, 0, 1920, 1080 });
+    DumbTreeRegion treev0({ 0,0,1920,1080 });
+    monitorize_v0_insertion(treev0, x, y);
+    monitorize_v0_intersection(treev0, { 0, 0, 1920 / 2, 1080 / 2 });
+    monitorize_v0_intersection(treev0, { 0, 0, 1920, 1080 });
 
-    //OptimizedQuadtree treev1;
-    //monitorize_v1_insertion(treev1, x, y);
-    //monitorize_v1_intersection(treev1, { 0, 0, 1920/2, 1080/2 });
-    //monitorize_v1_intersection(treev1, { 0, 0, 1920, 1080 });
+    OptimizedQuadtree treev1;
+    monitorize_v1_insertion(treev1, x, y);
+    monitorize_v1_intersection(treev1, { 0, 0, 1920/2, 1080/2 });
+    monitorize_v1_intersection(treev1, { 0, 0, 1920, 1080 });
 
-    //TreeRegionV2 treev2;
-    //monitorize_v2_insertion(treev2, x, y);
-    //monitorize_v2_intersection(treev2, { 0, 0, 1920/2, 1080/2 });
-    //monitorize_v2_intersection(treev2, { 0, 0, 1920, 1080 });
+    TreeRegionV2 treev2;
+    monitorize_v2_insertion(treev2, x, y);
+    monitorize_v2_intersection(treev2, { 0, 0, 1920/2, 1080/2 });
+    monitorize_v2_intersection(treev2, { 0, 0, 1920, 1080 });
 
     // treev2.dump();
 
